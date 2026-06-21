@@ -8,10 +8,9 @@ const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server
 // Axios instance — sends cookies automatically
 const axiosAuth = axios.create({
   baseURL: API,
-  withCredentials: true, // ← cookie পাঠাবে automatically
+  withCredentials: true, 
 });
 
-// Request interceptor — JWT token header এ add করে
 axiosAuth.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("ph_token");
@@ -25,7 +24,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try localStorage first (instant)
+    // Try localStorage 
     const savedUser = localStorage.getItem("ph_user");
     const token = localStorage.getItem("ph_token");
     if (savedUser && token) {
@@ -51,7 +50,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await axiosAuth.post("/api/auth/login", { email, password });
-    // Save JWT in both localStorage AND cookie is set by server
+    // Save JWT 
     localStorage.setItem("ph_token", res.data.token);
     localStorage.setItem("ph_user", JSON.stringify(res.data.user));
     setUser(res.data.user);

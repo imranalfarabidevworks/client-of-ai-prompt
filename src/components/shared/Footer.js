@@ -39,7 +39,7 @@ export default function Footer() {
         </div>
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-white/30 text-xs">
           <p>© 2025 PromptHive. All rights reserved.</p>
-          <p>Built with ❤️ for the AI community</p>
+          <p>Developed By Imran Al Farabi</p>
         </div>
       </div>
     </footer>

@@ -141,7 +141,7 @@ export default function RegisterPage() {
                       type="url"
                       value={form.photoURL}
                       onChange={(e) => up("photoURL", e.target.value)}
-                      placeholder="https://i.ibb.co/your-photo"
+                      placeholder="Enter your photo"
                       className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>

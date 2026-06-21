@@ -12,8 +12,8 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { auth } from "@/lib/auth";
 
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@gmail.com";
-const ADMIN_PASS  = process.env.NEXT_PUBLIC_ADMIN_PASS  || "Admin@1234";
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@prompthive.com";
+const ADMIN_PASS  = process.env.NEXT_PUBLIC_ADMIN_PASS  || "Admin@12345";
 
 export default function LoginPage() {
   const [email, setEmail]       = useState("");
@@ -177,7 +177,7 @@ export default function LoginPage() {
 
           {/* Admin credentials hint */}
           <div className="mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
-            {/* <div className="flex items-center justify-between mb-2">
+             <div className="flex items-center justify-between mb-2">
               <p className="text-xs font-bold text-red-700 dark:text-red-400 flex items-center gap-1.5">
                 <RiShieldLine /> Admin Login (Fixed)
               </p>
@@ -187,7 +187,7 @@ export default function LoginPage() {
               >
                 Auto Fill
               </button>
-            </div> */}
+            </div> 
             <p className="text-xs text-red-600 dark:text-red-400 font-mono">Email: {ADMIN_EMAIL}</p>
             <p className="text-xs text-red-600 dark:text-red-400 font-mono">Pass: {ADMIN_PASS}</p>
             <p className="text-[11px] text-red-400 dark:text-red-500 mt-2">

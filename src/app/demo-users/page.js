@@ -14,8 +14,8 @@ const DEMO_USERS = [
     color: "from-red-500 to-rose-600",
     iconBg: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
     badge: "bg-red-100 text-red-700 border-red-200",
-    email: "admin@gmail.com",
-    password: "Admin@1234",
+    email: "admin@prompthive.com",
+    password: "Admin@12345",
     description: "Full platform access including user management, prompt moderation, payment history, reported prompts, and system analytics.",
     features: [
       "Manage all users & roles",
@@ -32,8 +32,8 @@ const DEMO_USERS = [
     color: "from-violet-500 to-purple-600",
     iconBg: "bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400",
     badge: "bg-violet-100 text-violet-700 border-violet-200",
-    email: "creator@gmail.com",
-    password: "Creator@1234",
+    email: "creator@prompthive.com",
+    password: "Creator@12345",
     description: "Creator studio access with analytics dashboard, prompt management, copy & bookmark tracking, and performance charts.",
     features: [
       "Creator analytics dashboard",
@@ -50,8 +50,8 @@ const DEMO_USERS = [
     color: "from-blue-500 to-indigo-600",
     iconBg: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
     badge: "bg-blue-100 text-blue-700 border-blue-200",
-    email: "user@gmail.com",
-    password: "User@1234",
+    email: "user@prompthive.com",
+    password: "User@12345",
     description: "Standard user access to browse, copy, bookmark and review public prompts. Premium upgrade unlocks all private content.",
     features: [
       "Browse all public prompts",
