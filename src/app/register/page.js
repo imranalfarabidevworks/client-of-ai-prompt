@@ -11,11 +11,13 @@ import {
   RiCheckLine,
 } from "react-icons/ri";
 import { useAuth } from "@/context/AuthContext";
+import { auth } from "@/lib/auth";
 
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: "", email: "", photoURL: "", password: "" });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [gLoading, setGLoading] = useState(false);
   const [imgError, setImgError] = useState(false);
   const { register } = useAuth();
   const router = useRouter();
@@ -51,6 +53,23 @@ export default function RegisterPage() {
       toast.error(err?.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ─── Google Register via Better Auth ────────────
+  const handleGoogle = async () => {
+    setGLoading(true);
+    try {
+      const result = await auth.signIn.social({
+        provider: "google",
+        callbackURL: "/auth/google-callback",
+      });
+      if (!result?.data) {
+        toast.error("Google signup failed");
+      }
+    } catch (err) {
+      toast.error("Google signup failed. Try again.");
+      setGLoading(false);
     }
   };
 
@@ -216,10 +235,10 @@ export default function RegisterPage() {
                 <><RiLoader4Line className="animate-spin text-gray-400" /> Connecting…</>
               ) : (
                 <>
-                <img 
-        src="https://i.ibb.co.com/PGwRLmGt/channels4-profile.jpg" 
-        alt="Google" 
-        className="w-4 h-4" 
+                <img
+        src="https://i.ibb.co.com/PGwRLmGt/channels4-profile.jpg"
+        alt="Google"
+        className="w-4 h-4"
       /> Continue with Google</>
               )}
             </button>
