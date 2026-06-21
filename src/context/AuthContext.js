@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext(null);
-const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server.vercel.app/";
+const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server.vercel.app";
 
 // Axios instance — sends cookies automatically
 const axiosAuth = axios.create({
