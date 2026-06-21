@@ -10,10 +10,10 @@ import {
   RiLoader4Line, RiShieldLine,
 } from "react-icons/ri";
 import { useAuth } from "@/context/AuthContext";
-import { authClient } from "@/lib/authClient";
+import { authClient } from "@/lib/auth";
 
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@prompthive.com";
-const ADMIN_PASS  = process.env.NEXT_PUBLIC_ADMIN_PASS  || "Admin@12345";
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@gmail.com";
+const ADMIN_PASS  = process.env.NEXT_PUBLIC_ADMIN_PASS  || "Admin@1234";
 
 export default function LoginPage() {
   const [email, setEmail]       = useState("");
