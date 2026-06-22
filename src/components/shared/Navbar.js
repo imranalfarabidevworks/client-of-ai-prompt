@@ -145,7 +145,7 @@ export default function Navbar() {
           ) : (
             <>
               <Link href="/login" className="px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 text-sm font-semibold text-gray-700 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 transition-colors bg-white dark:bg-slate-800">Login</Link>
-              <Link href="/register" className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Register</Link>
+              <Link href="/register" className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">Get Started</Link>
             </>
           )}
         </div>

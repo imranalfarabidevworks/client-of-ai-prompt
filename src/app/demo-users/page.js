@@ -98,16 +98,16 @@ export default function DemoUsersPage() {
             </p>
           </motion.div>
 
-          {/* cards */}
+          {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {DEMO_USERS.map((u, i) => (
               <motion.div key={u.role} initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                 className="bg-white dark:bg-slate-800 rounded-3xl border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                {/* Gradient  */}
+                {/* Gradient top */}
                 <div className={`h-2 bg-gradient-to-r ${u.color}`} />
 
                 <div className="p-6 flex flex-col gap-5 flex-1">
-                  {/* Icon  */}
+                  {/* Icon + Role */}
                   <div className="flex items-center gap-3">
                     <span className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${u.iconBg}`}>
                       <u.icon />
