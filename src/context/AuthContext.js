@@ -3,14 +3,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext(null);
-const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server.vercel.app";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-// Axios instance — sends cookies automatically
-const axiosAuth = axios.create({
-  baseURL: API,
-  withCredentials: true, 
-});
-
+const axiosAuth = axios.create({ baseURL: API, withCredentials: true });
 axiosAuth.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("ph_token");
@@ -24,18 +19,19 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Try localStorage 
-    const savedUser = localStorage.getItem("ph_user");
+    // localStorage থেকে instant load
+    const saved = localStorage.getItem("ph_user");
     const token = localStorage.getItem("ph_token");
-    if (savedUser && token) {
-      try { setUser(JSON.parse(savedUser)); } catch {}
+    if (saved && token) {
+      try { setUser(JSON.parse(saved)); } catch {}
     }
-    // Then verify with server
+    // Server থেকে fresh data নাও (role update পেতে)
     if (token) {
       axiosAuth.get("/api/auth/me")
         .then((res) => {
-          setUser(res.data.user);
-          localStorage.setItem("ph_user", JSON.stringify(res.data.user));
+          const freshUser = res.data.user;
+          setUser(freshUser);
+          localStorage.setItem("ph_user", JSON.stringify(freshUser));
         })
         .catch(() => {
           localStorage.removeItem("ph_token");
@@ -50,7 +46,6 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await axiosAuth.post("/api/auth/login", { email, password });
-    // Save JWT 
     localStorage.setItem("ph_token", res.data.token);
     localStorage.setItem("ph_user", JSON.stringify(res.data.user));
     setUser(res.data.user);
@@ -67,9 +62,9 @@ export function AuthProvider({ children }) {
 
   const googleLogin = async (googleUser) => {
     const res = await axiosAuth.post("/api/auth/google", {
-      name: googleUser.displayName,
+      name: googleUser.displayName || googleUser.name,
       email: googleUser.email,
-      photoURL: googleUser.photoURL,
+      photoURL: googleUser.photoURL || googleUser.image || "",
     });
     localStorage.setItem("ph_token", res.data.token);
     localStorage.setItem("ph_user", JSON.stringify(res.data.user));

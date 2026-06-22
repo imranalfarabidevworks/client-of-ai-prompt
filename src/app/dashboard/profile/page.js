@@ -10,9 +10,9 @@ export default function ProfilePage() {
   const [imgError, setImgError] = useState(false);
 
   const roleConfig = {
-    admin:   { label: "Admin",   color: "bg-red-50    dark:bg-red-900/20    text-red-700    dark:text-red-400    border-red-200    dark:border-red-800" },
+    admin:   { label: "Admin",   color: "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800" },
     creator: { label: "Creator", color: "bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-400 border-violet-200 dark:border-violet-800" },
-    user:    { label: "User",    color: "bg-blue-50   dark:bg-blue-900/20   text-blue-700   dark:text-blue-400   border-blue-200   dark:border-blue-800" },
+    user:    { label: "User",    color: "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-800" },
   };
   const role = roleConfig[user?.role] || roleConfig.user;
 
@@ -24,9 +24,9 @@ export default function ProfilePage() {
           <p className="text-gray-500 dark:text-slate-400 text-sm">Your account information</p>
         </div>
 
-        {/* Avatar + name */}
+        {/* Avatar */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 flex items-center gap-5">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-blue-100 dark:bg-slate-700 flex items-center justify-center border-2 border-blue-100 dark:border-slate-600">
+          <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-blue-100 dark:bg-slate-700 flex items-center justify-center">
             {user?.photoURL && !imgError ? (
               <img src={user.photoURL} alt={user?.name} className="w-full h-full object-cover" onError={() => setImgError(true)} />
             ) : (
@@ -51,12 +51,12 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Info fields */}
+        {/* Info */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 space-y-4">
           {[
-            { icon: RiUserLine,  label: "Full Name",     value: user?.name },
-            { icon: RiMailLine,  label: "Email Address", value: user?.email },
-            { icon: RiShieldLine,label: "Account Role",  value: role.label },
+            { icon: RiUserLine,   label: "Full Name",     value: user?.name },
+            { icon: RiMailLine,   label: "Email Address", value: user?.email },
+            { icon: RiShieldLine, label: "Account Role",  value: role.label },
           ].map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex items-center gap-3">
               <span className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
@@ -80,7 +80,7 @@ export default function ProfilePage() {
               </div>
               <div>
                 <p className="font-bold text-sm text-blue-700 dark:text-blue-400">Premium Active ✨</p>
-                <p className="text-xs text-blue-500 dark:text-blue-500 mt-0.5">Full access to all private & premium prompts</p>
+                <p className="text-xs text-blue-500 mt-0.5">Full access to all private prompts</p>
               </div>
             </div>
           ) : (
