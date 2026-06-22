@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext(null);
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server.vercel.app";
 
 const axiosAuth = axios.create({ baseURL: API, withCredentials: true });
 axiosAuth.interceptors.request.use((config) => {
