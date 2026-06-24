@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext(null);
-const API = process.env.NEXT_PUBLIC_API_URL || "https://ai-prompt-sharing-server.vercel.app";
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const axiosAuth = axios.create({ baseURL: API, withCredentials: true });
 axiosAuth.interceptors.request.use((config) => {
@@ -15,21 +15,21 @@ axiosAuth.interceptors.request.use((config) => {
 });
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser]       = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // localStorage থেকে instant load
     const saved = localStorage.getItem("ph_user");
     const token = localStorage.getItem("ph_token");
-    if (saved && token) {
-      try { setUser(JSON.parse(saved)); } catch {}
-    }
-    // Server থেকে fresh data নাও (role update পেতে)
+    if (saved && token) { try { setUser(JSON.parse(saved)); } catch {} }
     if (token) {
       axiosAuth.get("/api/auth/me")
         .then((res) => {
           const freshUser = res.data.user;
+          // Server থেকে fresh role সহ নতুন token save করো
+          if (res.data.token) {
+            localStorage.setItem("ph_token", res.data.token);
+          }
           setUser(freshUser);
           localStorage.setItem("ph_user", JSON.stringify(freshUser));
         })
