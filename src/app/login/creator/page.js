@@ -4,16 +4,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { RiMailLine, RiLockLine, RiBrushFill, RiEyeLine, RiEyeOffLine, RiLoader4Line, RiSparklingFill, RiGoogleFill } from "react-icons/ri";
+import { RiMailLine, RiLockLine, RiBrushFill, RiEyeLine, RiEyeOffLine, RiLoader4Line, RiSparklingFill } from "react-icons/ri";
 import { useAuth } from "@/context/AuthContext";
-import { authClient } from "@/lib/authClient";
+
+const CREATOR_EMAIL = process.env.NEXT_PUBLIC_CREATOR_EMAIL || "creator@prompthive.com";
+const CREATOR_PASS  = process.env.NEXT_PUBLIC_CREATOR_PASS  || "Creator@12345";
 
 export default function CreatorLoginPage() {
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading]   = useState(false);
-  const [gLoading, setGLoading] = useState(false);
   const { login } = useAuth();
   const router    = useRouter();
 
@@ -24,31 +25,19 @@ export default function CreatorLoginPage() {
     try {
       const user = await login(email, password);
       if (user.role !== "creator" && user.role !== "admin") {
-        toast.error("This login is for Creators only! Contact admin to upgrade your role.");
+        toast.error("Access denied! Contact admin to get Creator role.");
         return;
       }
-      toast.success(`Welcome back, ${user.name}! 🎨`);
+      toast.success(`Welcome Creator ${user.name}! 🎨`);
       router.push("/dashboard/creator");
     } catch (err) {
       toast.error(err?.response?.data?.message || "Invalid credentials");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogle = async () => {
-    setGLoading(true);
-    try {
-      await authClient.signIn.social({ provider: "google", callbackURL: "/auth/google-callback" });
-    } catch {
-      toast.error("Google login failed");
-      setGLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   return (
     <div className="min-h-screen flex bg-gray-50 dark:bg-slate-900">
-      {/* Left Panel */}
+      {/* Left */}
       <div className="hidden lg:flex flex-col justify-between w-[420px] bg-violet-600 p-10 shrink-0">
         <Link href="/" className="flex items-center gap-2">
           <span className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
@@ -61,31 +50,32 @@ export default function CreatorLoginPage() {
             <RiBrushFill className="text-white text-3xl" />
           </div>
           <h2 className="text-white font-bold text-3xl leading-snug">Creator Studio</h2>
-          <p className="text-violet-200 text-sm leading-relaxed">Build your audience, publish prompts, and track your performance.</p>
+          <p className="text-violet-200 text-sm">Publish prompts, track analytics, build your audience.</p>
           <div className="bg-white/10 rounded-2xl p-4 space-y-2">
-            <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-3">Creator Benefits</p>
+            <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-3">Creator Can</p>
             {["Analytics dashboard with charts","Add unlimited prompts","Track copies & bookmarks","Public & private visibility","Build a follower base"].map((t) => (
               <div key={t} className="flex items-center gap-2 text-white/80 text-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-300 shrink-0" /> {t}
               </div>
             ))}
           </div>
-          <div className="bg-white/10 rounded-2xl p-3">
-            <p className="text-violet-200 text-xs">💡 Don't have Creator access? Register as a User and ask Admin to upgrade your role.</p>
+          <div className="bg-white/10 rounded-xl p-3">
+            <p className="text-violet-200 text-xs">💡 No Creator access? Register as User → Admin upgrades your role.</p>
           </div>
         </div>
-        <p className="text-violet-200/40 text-xs">© 2025 PromptHive Creator Studio</p>
+        <p className="text-violet-200/40 text-xs">© 2025 PromptHive</p>
       </div>
 
-      {/* Right Panel */}
+      {/* Right */}
       <div className="flex-1 flex items-center justify-center p-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
-          {/* Role Switcher */}
+
+          {/* Role tabs */}
           <div className="flex rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden mb-6 bg-white dark:bg-slate-800">
             {[
-              { label: "Admin",   href: "/login/admin",   color: "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700" },
+              { label: "User",    href: "/login",         color: "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700" },
               { label: "Creator", href: "/login/creator", color: "bg-violet-600 text-white" },
-              { label: "User",    href: "/login/user",    color: "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700" },
+              { label: "Admin",   href: "/login/admin",   color: "text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-700" },
             ].map((tab) => (
               <Link key={tab.label} href={tab.href} className={`flex-1 text-center py-2.5 text-sm font-semibold transition-colors ${tab.color}`}>
                 {tab.label}
@@ -94,7 +84,7 @@ export default function CreatorLoginPage() {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-200 dark:border-slate-700 p-8">
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
                 <RiBrushFill className="text-violet-600 dark:text-violet-400 text-lg" />
               </div>
@@ -104,26 +94,12 @@ export default function CreatorLoginPage() {
               </div>
             </div>
 
-            {/* Google */}
-            <button onClick={handleGoogle} disabled={gLoading}
-              className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-sm font-semibold text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors mb-4 disabled:opacity-60">
-              {gLoading ? <><RiLoader4Line className="animate-spin" /> Connecting…</> : (
-                <><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z"/><path fill="#4A90E2" d="M19.834 21c2.195-2.048 3.62-5.096 3.62-9 0-.71-.109-1.473-.272-2.182H12v4.637h6.436c-.317 1.559-1.17 2.766-2.395 3.558L19.834 21Z"/><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/></svg> Continue with Google</>
-              )}
-            </button>
-
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex-1 h-px bg-gray-200 dark:bg-slate-600" />
-              <span className="text-xs text-gray-400 dark:text-slate-500">or email</span>
-              <div className="flex-1 h-px bg-gray-200 dark:bg-slate-600" />
-            </div>
-
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Email</label>
                 <div className="relative">
                   <RiMailLine className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="creator@example.com"
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={CREATOR_EMAIL}
                     className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500" />
                 </div>
               </div>
@@ -131,9 +107,9 @@ export default function CreatorLoginPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Password</label>
                 <div className="relative">
                   <RiLockLine className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password"
+                  <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Creator password"
                     className="w-full pl-9 pr-10 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-500" />
-                  <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                     {showPass ? <RiEyeOffLine /> : <RiEyeLine />}
                   </button>
                 </div>
@@ -144,14 +120,22 @@ export default function CreatorLoginPage() {
               </button>
             </form>
 
-            <p className="text-center text-sm text-gray-500 dark:text-slate-400 mt-5">
+            {/* Credentials hint */}
+            <div className="mt-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl p-3 flex items-center justify-between">
+              <div>
+                <p className="text-xs font-mono text-violet-600 dark:text-violet-400">{CREATOR_EMAIL}</p>
+                <p className="text-xs font-mono text-violet-600 dark:text-violet-400">{CREATOR_PASS}</p>
+              </div>
+              <button onClick={() => { setEmail(CREATOR_EMAIL); setPassword(CREATOR_PASS); }}
+                className="text-xs font-semibold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/40 px-3 py-1.5 rounded-lg hover:underline">
+                Auto Fill
+              </button>
+            </div>
+
+            <p className="text-center text-sm text-gray-500 dark:text-slate-400 mt-4">
               No account? <Link href="/register" className="text-violet-600 font-semibold hover:underline">Register here</Link>
             </p>
           </div>
-
-          <p className="text-center text-xs text-gray-400 dark:text-slate-500 mt-4">
-            Wrong page? <Link href="/login/admin" className="text-red-600 hover:underline">Admin Login</Link> · <Link href="/login/user" className="text-blue-600 hover:underline">User Login</Link>
-          </p>
         </motion.div>
       </div>
     </div>

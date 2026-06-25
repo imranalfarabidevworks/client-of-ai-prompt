@@ -10,7 +10,7 @@ import {
   RiLoader4Line, RiCheckLine,
 } from "react-icons/ri";
 import { useAuth } from "@/context/AuthContext";
-import { authClient } from "@/lib/authClient"; // ← auth নয়, authClient
+import { authClient } from "@/lib/authClient";
 
 export default function RegisterPage() {
   const [form, setForm]         = useState({ name: "", email: "", photoURL: "", password: "" });
@@ -47,20 +47,15 @@ export default function RegisterPage() {
       router.push("/dashboard");
     } catch (err) {
       toast.error(err?.response?.data?.message || "Registration failed");
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   const handleGoogle = async () => {
     setGLoading(true);
     try {
-      await authClient.signIn.social({ // ← authClient.signIn.social
-        provider: "google",
-        callbackURL: "/auth/google-callback",
-      });
+      await authClient.signIn.social({ provider: "google", callbackURL: "/auth/google-callback" });
     } catch {
-      toast.error("Google signup failed. Try again.");
+      toast.error("Google signup failed");
       setGLoading(false);
     }
   };
@@ -69,7 +64,7 @@ export default function RegisterPage() {
   const showPreview = form.photoURL && isValidUrl(form.photoURL) && !imgError;
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-slate-900">
       {/* Left */}
       <div className="hidden lg:flex flex-col justify-between w-[420px] bg-blue-600 p-10 shrink-0">
         <Link href="/" className="flex items-center gap-2">
@@ -95,9 +90,8 @@ export default function RegisterPage() {
       </div>
 
       {/* Right */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-gray-50 dark:bg-slate-900 overflow-y-auto">
+      <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md py-6">
-
           <Link href="/" className="flex items-center gap-2 justify-center mb-8 lg:hidden">
             <span className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
               <RiSparklingFill className="text-white text-lg" />
@@ -109,24 +103,12 @@ export default function RegisterPage() {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Create account</h1>
             <p className="text-gray-500 dark:text-slate-400 text-sm mb-6">Start sharing prompts for free</p>
 
-            {/* Google Button - উপরে */}
-            <button
-              onClick={handleGoogle}
-              disabled={gLoading}
-              className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-sm font-semibold text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors mb-5 disabled:opacity-60"
-            >
-              {gLoading ? (
-                <><RiLoader4Line className="animate-spin text-gray-400" /> Connecting…</>
-              ) : (
-                <>
-                  <svg width="18" height="18" viewBox="0 0 24 24">
-                    <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/>
-                    <path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z"/>
-                    <path fill="#4A90E2" d="M19.834 21c2.195-2.048 3.62-5.096 3.62-9 0-.71-.109-1.473-.272-2.182H12v4.637h6.436c-.317 1.559-1.17 2.766-2.395 3.558L19.834 21Z"/>
-                    <path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/>
-                  </svg>
-                  Continue with Google
-                </>
+            {/* Google */}
+            <button onClick={handleGoogle} disabled={gLoading}
+              className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 text-sm font-semibold text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors mb-5 disabled:opacity-60">
+              {gLoading ? <><RiLoader4Line className="animate-spin" /> Connecting…</> : (
+                <><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/><path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z"/><path fill="#4A90E2" d="M19.834 21c2.195-2.048 3.62-5.096 3.62-9 0-.71-.109-1.473-.272-2.182H12v4.637h6.436c-.317 1.559-1.17 2.766-2.395 3.558L19.834 21Z"/><path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/></svg>
+                Continue with Google</>
               )}
             </button>
 
@@ -149,19 +131,15 @@ export default function RegisterPage() {
                   )}
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">
-                    Photo URL <span className="text-gray-400 font-normal">(optional)</span>
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Photo URL <span className="text-gray-400 font-normal">(optional)</span></label>
                   <div className="relative">
                     <RiImageLine className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input type="url" value={form.photoURL} onChange={(e) => up("photoURL", e.target.value)} placeholder="Enter your photo URL"
+                    <input type="url" value={form.photoURL} onChange={(e) => up("photoURL", e.target.value)} placeholder="https://i.ibb.co/your-photo"
                       className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                   </div>
-                  {form.photoURL && imgError && <p className="text-xs text-red-500 mt-1">Invalid image URL</p>}
                 </div>
               </div>
 
-              {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Full Name</label>
                 <div className="relative">
@@ -171,7 +149,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Email</label>
                 <div className="relative">
@@ -181,7 +158,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1.5">Password</label>
                 <div className="relative">
@@ -199,7 +175,7 @@ export default function RegisterPage() {
                         <span className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[9px] ${r.ok ? "bg-green-500 text-white" : "bg-gray-200 dark:bg-slate-600 text-gray-400"}`}>
                           {r.ok ? "✓" : "·"}
                         </span>
-                        <span className={`text-xs ${r.ok ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-slate-500"}`}>{r.label}</span>
+                        <span className={`text-xs ${r.ok ? "text-green-600 dark:text-green-400" : "text-gray-400"}`}>{r.label}</span>
                       </div>
                     ))}
                   </div>
@@ -213,10 +189,13 @@ export default function RegisterPage() {
             </form>
 
             <p className="text-center text-sm text-gray-500 dark:text-slate-400 mt-5">
-              Already have an account?{" "}
-              <Link href="/login" className="text-blue-600 font-semibold hover:underline">Sign in</Link>
+              Already have an account? <Link href="/login" className="text-blue-600 font-semibold hover:underline">Sign in</Link>
             </p>
           </div>
+
+          <p className="text-center text-xs text-gray-400 dark:text-slate-500 mt-4">
+            Admin or Creator? <Link href="/login/admin" className="text-red-500 hover:underline">Admin</Link> · <Link href="/login/creator" className="text-violet-500 hover:underline">Creator</Link>
+          </p>
         </motion.div>
       </div>
     </div>
