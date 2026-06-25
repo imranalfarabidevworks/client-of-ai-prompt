@@ -118,7 +118,7 @@ export default function AdminLoginPage() {
             </form>
 
             {/* Credentials hint */}
-            <div className="mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3 flex items-center justify-between">
+            {/* <div className="mt-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3 flex items-center justify-between">
               <div>
                 <p className="text-xs font-mono text-red-600 dark:text-red-400">{ADMIN_EMAIL}</p>
                 <p className="text-xs font-mono text-red-600 dark:text-red-400">{ADMIN_PASS}</p>
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
                 className="text-xs font-semibold text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900/40 px-3 py-1.5 rounded-lg hover:underline">
                 Auto Fill
               </button>
-            </div>
+            </div> */}
           </div>
         </motion.div>
       </div>

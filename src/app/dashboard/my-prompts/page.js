@@ -50,7 +50,7 @@ export default function MyPromptsPage() {
   };
 
   const handleEdit = (prompt) => {
-    setEditPrompt({ ...prompt }); // copy করো
+    setEditPrompt({ ...prompt }); 
   };
 
   const handleSaveEdit = async () => {

@@ -121,7 +121,7 @@ export default function CreatorLoginPage() {
             </form>
 
             {/* Credentials hint */}
-            <div className="mt-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl p-3 flex items-center justify-between">
+            {/* <div className="mt-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl p-3 flex items-center justify-between">
               <div>
                 <p className="text-xs font-mono text-violet-600 dark:text-violet-400">{CREATOR_EMAIL}</p>
                 <p className="text-xs font-mono text-violet-600 dark:text-violet-400">{CREATOR_PASS}</p>
@@ -130,7 +130,7 @@ export default function CreatorLoginPage() {
                 className="text-xs font-semibold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/40 px-3 py-1.5 rounded-lg hover:underline">
                 Auto Fill
               </button>
-            </div>
+            </div> */}
 
             <p className="text-center text-sm text-gray-500 dark:text-slate-400 mt-4">
               No account? <Link href="/register" className="text-violet-600 font-semibold hover:underline">Register here</Link>

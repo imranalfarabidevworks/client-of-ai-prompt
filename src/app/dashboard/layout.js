@@ -14,7 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 import PrivateRoute from "@/components/shared/PrivateRoute";
 import toast from "react-hot-toast";
 
-// ─── Sidebar links per role ───────────────────
+// -- Sidebar links per role --
 const userLinks = [
   { href: "/dashboard",            label: "Dashboard",     icon: RiDashboardLine, exact: true },
   { href: "/dashboard/add-prompt", label: "Add Prompt",    icon: RiAddLine },

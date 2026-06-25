@@ -19,7 +19,7 @@ export default function GoogleCallbackPage() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Better Auth থেকে current session নাও
+        
         const session = await authClient.getSession();
 
         if (!session?.data?.user) {

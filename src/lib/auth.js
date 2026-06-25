@@ -9,9 +9,8 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     },
   },
-  // Better Auth session — শুধু Google OAuth handle করবে
-  // বাকি সব (JWT, role, DB) তোমার MongoDB server করবে
+  
   session: {
-    expiresIn: 60 * 10, // 10 minutes — শুধু callback এর জন্য
+    expiresIn: 60 * 10, 
   },
 });

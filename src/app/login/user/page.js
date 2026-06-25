@@ -24,7 +24,7 @@ export default function UserLoginPage() {
     try {
       const user = await login(email, password);
       toast.success(`Welcome back, ${user.name}! 👋`);
-      // User হলে /dashboard, admin হলে admin dashboard
+      
       if (user.role === "admin") router.push("/dashboard/admin");
       else if (user.role === "creator") router.push("/dashboard/creator");
       else router.push("/dashboard");

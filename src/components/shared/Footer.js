@@ -44,10 +44,10 @@ export default function Footer() {
                   <span className="w-7 h-7 rounded-lg bg-blue-600/30 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                     <RiUserLine className="text-blue-400 text-xs" />
                   </span>
-                  <div>
+                  {/* <div>
                     <p className="text-sm text-white/70 group-hover:text-white transition-colors font-medium">User Login</p>
                     <p className="text-xs text-white/30">Browse & copy prompts</p>
-                  </div>
+                  </div> */}
                 </Link>
               </li>
               <li>
@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-white/30 text-xs">
           <p>© 2025 PromptHive. All rights reserved.</p>
-          <p>Built with ❤️ for the AI community</p>
+          <p>Developed By Imran Al Farabi</p>
         </div>
       </div>
     </footer>
